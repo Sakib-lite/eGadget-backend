@@ -22,7 +22,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: 'https://e-gadget-app.herokuapp.com',
+    origin: 'https://e-gadget.vercel.app',
     credentials: true,
   })
 );
