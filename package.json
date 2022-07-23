@@ -4,9 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "nodemon server/server.js",
-    "build": "next build",
-    "start": "SET NODE_ENV=production && nodemon server/server.js",
-    "lint": "next lint"
+    "start": "nodemon server/server.js"
+
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -30,8 +29,5 @@
     "stripe": "^9.2.0",
     "validator": "^13.7.0",
     "xss-clean": "^0.1.1"
-  },
-  "devDependencies": {
-    "morgan": "^1.10.0"
   }
 }
