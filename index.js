@@ -10,11 +10,13 @@ const othersRoutes = require('./server/routes/othersRoutes');
 const orderRoutes = require('./server/routes/orderRoutes');
 const searchRoutes = require('./server/routes/searchRoutes');
 const errorHandler = require('./server/controllers/errorController');
-// const session = require('express-session')
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const orderController = require('./server/controllers/orderController');
-// const Error = require('./../utils/appError');
+const xss = require('xss-clean')
+const compression=require('compression');
+const mongoSanitizer = require('express-mongo-sanitize');
+const helmet= require('helmet')
 
 const server = express();
 db.connect();
@@ -34,14 +36,16 @@ server.post(
 server.use(express.json());
 server.use(express.urlencoded({ extended: true }));
 server.use(cookieParser());
-
+server.use(xss())
+server.use(compression())
+server.use(mongoSanitizer())
 //middlewares
 //server.get will only be called for GET requests
 //server.use only see whether url starts with specified path;
 //server.all will match complete path.
 
 // process.env.NODE_ENV === 'development' ? server.use(morgan('dev')) : '';
-// server.use(helmet());
+server.use(helmet());
 
 //routes
 server.use('/api/product/laptop', laptopRoutes);
@@ -54,4 +58,6 @@ server.use('/api/order', orderRoutes);
 
 server.use(errorHandler);
 
-server.listen(process.env.PORT || 3001, '0.0.0.0');
+server.listen(process.env.PORT || 3001, '0.0.0.0', function() {
+  console.log(`App is running on localhost:${process.env.PORT || 3001}`)
+});
