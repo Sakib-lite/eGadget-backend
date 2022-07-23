@@ -55,7 +55,6 @@ server.use('/api/order', orderRoutes);
 
 server.use(errorHandler);
 
-server.listen(PORT, (err) => {
-  if (err) throw err;
+server.listen(PORT, () => {
   console.log(`> Server running at http://localhost:${PORT}`);
 });
