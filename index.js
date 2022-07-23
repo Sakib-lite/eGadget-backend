@@ -18,46 +18,69 @@ const compression=require('compression');
 const mongoSanitizer = require('express-mongo-sanitize');
 const helmet= require('helmet')
 
-const server = express();
-db.connect();
-server.use(
+const app = express();
+
+app.use(
   cors({
     origin: 'https://e-gadget-app.herokuapp.com',
     credentials: true,
   })
 );
 
-server.post(
+app.post(
   '/webhook-checkout',
   bodyParser.raw({ type: 'application/json' }),
   orderController.webhookCheckout
 );
 
-server.use(express.json());
-server.use(express.urlencoded({ extended: true }));
-server.use(cookieParser());
-server.use(xss())
-server.use(compression())
-server.use(mongoSanitizer())
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
+app.use(xss())
+app.use(compression())
+app.use(mongoSanitizer())
 //middlewares
-//server.get will only be called for GET requests
-//server.use only see whether url starts with specified path;
-//server.all will match complete path.
+//app.get will only be called for GET requests
+//app.use only see whether url starts with specified path;
+//app.all will match complete path.
 
-// process.env.NODE_ENV === 'development' ? server.use(morgan('dev')) : '';
-server.use(helmet());
+// process.env.NODE_ENV === 'development' ? app.use(morgan('dev')) : '';
+app.use(helmet());
 
 //routes
-server.use('/api/product/laptop', laptopRoutes);
-server.use('/api/product/mobile', mobileRoutes);
-server.use('/api/product/other', othersRoutes);
-server.use('/api/users', userRoutes);
-server.use('/api/search', searchRoutes);
-server.use('/api/review', reviewRoutes);
-server.use('/api/order', orderRoutes);
+app.use('/api/product/laptop', laptopRoutes);
+app.use('/api/product/mobile', mobileRoutes);
+app.use('/api/product/other', othersRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/search', searchRoutes);
+app.use('/api/review', reviewRoutes);
+app.use('/api/order', orderRoutes);
 
-server.use(errorHandler);
+app.use(errorHandler);
 
-server.listen(process.env.PORT || 3001, '0.0.0.0', function() {
+
+process.on('uncaughtException', err => {
+  console.log('UNCAUGHT EXCEPTION!');
+  console.log(err.name, err.message);
+  process.exit(1);
+});
+db.connect();
+const server=app.listen(process.env.PORT || 3001, '0.0.0.0', function() {
   console.log(`App is running on localhost:${process.env.PORT || 3001}`)
+});
+
+
+process.on('unhandledRejection', err => {
+  console.log('UNHANDLED REJECTION!');
+  console.log(err.name, err.message);
+  server.close(() => {
+    process.exit(1);
+  });
+});
+
+process.on('SIGTERM', () => {
+  console.log('SIGTERM RECEIVED. Shutting down gracefully');
+  server.close(() => {
+    console.log('💥 Process terminated!');
+  });
 });
