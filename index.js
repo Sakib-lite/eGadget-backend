@@ -54,6 +54,4 @@ server.use('/api/order', orderRoutes);
 
 server.use(errorHandler);
 
-server.listen(process.env.PORT || 3001, function () {
-  console.log(`> Server running at http://localhost:${process.env.PORT  || 3000}`);
-});
+server.listen(process.env.PORT || 3001, '0.0.0.0');
