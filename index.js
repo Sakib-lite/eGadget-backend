@@ -1,7 +1,7 @@
 const express = require('express');
 const db = require('./utils/db');
 require('dotenv').config();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3000;
 const cors = require('cors');
 const laptopRoutes = require('./server/routes/laptopRoutes');
 const mobileRoutes = require('./server/routes/mobileRoutes');
@@ -55,6 +55,6 @@ server.use('/api/order', orderRoutes);
 
 server.use(errorHandler);
 
-server.listen(PORT, () => {
+server.listen(PORT, function () {
   console.log(`> Server running at http://localhost:${PORT}`);
 });
