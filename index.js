@@ -1,20 +1,20 @@
 const express = require('express');
-const db = require('./../utils/db');
+const db = require('./utils/db');
 require('dotenv').config();
 const PORT = process.env.PORT || 3001;
 const cors = require('cors');
-const laptopRoutes = require('./routes/laptopRoutes');
-const mobileRoutes = require('./routes/mobileRoutes');
-const userRoutes = require('./routes/userRoutes');
-const reviewRoutes = require('./routes/reviewRoutes');
-const othersRoutes = require('./routes/othersRoutes');
-const orderRoutes = require('./routes/orderRoutes');
-const searchRoutes = require('./routes/searchRoutes');
-const errorHandler = require('./controllers/errorController');
+const laptopRoutes = require('./server/routes/laptopRoutes');
+const mobileRoutes = require('./server/routes/mobileRoutes');
+const userRoutes = require('./server/routes/userRoutes');
+const reviewRoutes = require('./server/routes/reviewRoutes');
+const othersRoutes = require('./server/routes/othersRoutes');
+const orderRoutes = require('./server/routes/orderRoutes');
+const searchRoutes = require('./server/routes/searchRoutes');
+const errorHandler = require('./server/controllers/errorController');
 // const session = require('express-session')
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-const orderController = require('./controllers/orderController');
+const orderController = require('./server/controllers/orderController');
 // const Error = require('./../utils/appError');
 
 const server = express();
