@@ -1,7 +1,7 @@
 const User = require('../models/userModel');
 const userController = require('./handlerController');
-const catchError = require('../../utils/catchError');
-const Error = require('../../utils/appError');
+const catchError = require('./../../utils/catchError');
+const Error = require('./../../utils/appError');
 
 const excludingItems = (obj, ...exclude) => {
   let newObj = {};

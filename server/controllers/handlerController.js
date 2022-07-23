@@ -1,5 +1,5 @@
-const Error = require('../../utils/appError');
-const catchError = require('../../utils/catchError');
+const Error = require('./../../utils/appError');
+const catchError = require('./../../utils/catchError');
 const Review = require('../models/reviewModel');
 
 exports.createDocument = (Model) =>

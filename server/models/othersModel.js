@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const slugify = require('slugify');
 const upperCaseFirstLetter = require('./../../utils/upperCaseFirstLetter');
-const getPercentage = require('../../utils/getPercentage');
+const getPercentage = require('./../../utils/getPercentage');
 
 const othersSchema = new mongoose.Schema(
   {

@@ -1,11 +1,11 @@
 /* eslint-disable no-unused-vars */
 const User = require('../models/userModel');
-const catchError = require('../../utils/catchError');
+const catchError = require('./../../utils/catchError');
 const jwt = require('jsonwebtoken');
 const { promisify } = require('util');
-const Error = require('../../utils/appError');
-const sendEmail = require('../../utils/sendEmail');
-const hashedCrypto = require('../../utils/hashedToken');
+const Error = require('./../../utils/appError');
+const sendEmail = require('./../../utils/sendEmail');
+const hashedCrypto = require('./../../utils/hashedToken');
 
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {

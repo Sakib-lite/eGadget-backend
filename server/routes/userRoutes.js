@@ -2,7 +2,7 @@ const express = require('express');
 const userController = require('../controllers/userController');
 const router = express.Router();
 const authController = require('../controllers/authController');
-const multer= require('../../utils/multer')
+const multer= require('./../../utils/multer')
 
 router.route('/signup').post(authController.signup);
 router.route('/login').post(authController.login);
