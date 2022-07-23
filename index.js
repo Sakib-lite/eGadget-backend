@@ -20,7 +20,7 @@ const server = express();
 db.connect();
 server.use(
   cors({
-    origin: 'http://localhost:3001',
+    origin: 'https://e-gadget-app.herokuapp.com',
     credentials: true,
   })
 );
