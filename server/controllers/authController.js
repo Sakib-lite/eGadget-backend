@@ -21,6 +21,7 @@ const createTokenAndSendIt = (user, statusCode, res, message = 'Completed') => {
       Date.now() + process.env.JWT_EXPIRES * 24 * 60 * 60 * 1000
     ),
     domain: process.env.NODE_ENV === 'development' ? '.localhost' : 'https://e-gadget.vercel.app' ,
+    httpOnly: false,
     secure: false,
   });
   res.status(statusCode).json({
