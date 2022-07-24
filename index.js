@@ -19,28 +19,28 @@ const mongoSanitizer = require('express-mongo-sanitize');
 const helmet= require('helmet')
 
 const app = express();
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
-app.use(
-  cors({
-    origin: 'https://e-gadget.vercel.app',
-    credentials: true,
-  })
-);
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Credentials', true);
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,UPDATE,OPTIONS');
   res.header('Access-Control-Allow-Headers', 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept');
   next();
 });
+app.use(
+  cors({
+    origin: 'https://e-gadget.vercel.app',
+    credentials: true,
+  })
+);
 app.post(
   '/webhook-checkout',
   bodyParser.raw({ type: 'application/json' }),
   orderController.webhookCheckout
 );
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
 app.use(xss())
 app.use(compression())
 app.use(mongoSanitizer())
