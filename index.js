@@ -26,7 +26,12 @@ app.use(
     credentials: true,
   })
 );
-
+app.use(function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', 'https://e-gadget.vercel.app');
+  res.header('Access-Control-Allow-Credentials', true);
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  next();
+});
 app.post(
   '/webhook-checkout',
   bodyParser.raw({ type: 'application/json' }),
