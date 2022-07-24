@@ -16,9 +16,6 @@ const generateToken = (id) => {
 const createTokenAndSendIt = (user, statusCode, res, message = 'Completed') => {
   const token = generateToken(user._id);
   user.password = undefined;
-  res.setHeader('Access-Control-Allow-Credentials', true);
-  res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
-  res.setHeader('Access-Control-Allow-Origin', 'https://e-gadget.vercel.app');
   res.cookie('jwt', token, {
     expires: new Date(
       Date.now() + process.env.JWT_EXPIRES * 24 * 60 * 60 * 1000
@@ -72,7 +69,7 @@ exports.logout = (req, res) => {
 };
 exports.protectedRoute = catchError(async (req, res, next) => {
   let token;
-  console.log('  req.cookies.jwt', req.cookies.jwt)
+  console.log('  req.cookies.jwt', req.cookies)
   if (req.cookies.jwt) {
     token = req.cookies.jwt; //getting token from cookie parsed by cookie parser
   }
