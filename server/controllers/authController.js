@@ -20,7 +20,7 @@ const createTokenAndSendIt = (user, statusCode, res, message = 'Completed') => {
     expires: new Date(
       Date.now() + process.env.JWT_EXPIRES * 24 * 60 * 60 * 1000
     ),
-    domain: "vercel.app"
+   sameSite:'none'
   });
   res.status(statusCode).json({
     status: 'success',
