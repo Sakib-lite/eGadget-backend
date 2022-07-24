@@ -68,6 +68,7 @@ exports.logout = (req, res) => {
 };
 exports.protectedRoute = catchError(async (req, res, next) => {
   let token;
+  console.log('  req.cookies.jwt', req.cookies.jwt)
   if (req.cookies.jwt) {
     token = req.cookies.jwt; //getting token from cookie parsed by cookie parser
   }
