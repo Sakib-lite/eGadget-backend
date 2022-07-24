@@ -20,11 +20,9 @@ const createTokenAndSendIt = (user, statusCode, res, message = 'Completed') => {
     expires: new Date(
       Date.now() + process.env.JWT_EXPIRES * 24 * 60 * 60 * 1000
     ),
-    signed: true,
-    secure: process.env.NODE_ENV === "production",
-    httpOnly: true,
-    domain: process.env.ORIGIN_HOSTNAME || "localhost",
-    sameSite: 'none'
+    sameSite : "none",
+    secure: true,
+    httpOnly: true
   });
   res.status(statusCode).json({
     status: 'success',
