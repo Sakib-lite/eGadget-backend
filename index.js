@@ -31,8 +31,8 @@ app.use((req, res, next) => {
 });
 app.use(
   cors({
-    origin: 'https://e-gadget.vercel.app',
     credentials: true,
+    origin: true,
   })
 );
 app.post(
