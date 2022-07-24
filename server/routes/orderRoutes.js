@@ -3,7 +3,7 @@ const router= express.Router()
 const authController= require('../controllers/authController')
 const orderController= require('../controllers/orderController')
 
-router.use(authController.protectedRoute)
+// router.use(authController.protectedRoute)
 
 router.route('/checkout-session').post(orderController.getCheckoutSessions)
 

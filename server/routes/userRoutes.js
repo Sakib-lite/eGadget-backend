@@ -13,7 +13,7 @@ router.route('/reset-password/:token').patch(authController.resetPassword);
 
 router.route('/').post(userController.createUser);
 
-router.use(authController.protectedRoute); //proted route for logged user only
+// router.use(authController.protectedRoute); //proted route for logged user only
 
 router.route('/me').get(userController.getMe,userController.getUser)
 router.route('/me/change-password').patch(authController.changePassword);
