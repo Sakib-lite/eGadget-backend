@@ -22,7 +22,7 @@ const createTokenAndSendIt = (user, statusCode, res, message = 'Completed') => {
     ),
     sameSite : "none",
     secure: true,
-    domain: "e-gadget.vercel.app",
+
     httpOnly: true
   });
   res.status(statusCode).json({
