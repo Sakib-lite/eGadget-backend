@@ -32,7 +32,7 @@ app.use((req, res, next) => {
 app.use(
   cors({
     credentials: true,
-    origin: 'https://e-gadget-backend-sakib-lite.vercel.app',
+    origin: 'e-gadget.vercel.app',
   })
 );
 app.post(
