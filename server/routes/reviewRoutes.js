@@ -6,7 +6,7 @@ const router = express.Router({ mergeParams: true });
 
 router.route('/review-stats').get(reviewController.reviewStats)
 
-// router.use(authController.protectedRoute);
+router.use(authController.protectedRoute);
 
 router
   .route('/')

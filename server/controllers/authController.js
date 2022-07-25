@@ -71,7 +71,7 @@ exports.protectedRoute = catchError(async (req, res, next) => {
   let token;
 
  token = req.body.token || req.query.token || req.headers["authorization"] || req.cookies.jwt
- console.log('  token', token)
+//  console.log('  token', token)
 
   // console.log('  req.cookies.jwt', req.headers)
   // if (req.cookies.jwt) {
