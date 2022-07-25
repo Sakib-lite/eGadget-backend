@@ -22,9 +22,9 @@ exports.getCheckoutSessions = catchError(async (req, res) => {
     }),
 
     mode: 'payment',
-    success_url: `${req.protocol}://${req.get('host')}`,
+    success_url: 'https://e-gadget.vercel.app/',
 
-    cancel_url: `${req.protocol}://${req.get('host')}/cart`,
+    cancel_url: 'https://e-gadget.vercel.app/cart',
 
     customer_email: req.user.email,
   });
