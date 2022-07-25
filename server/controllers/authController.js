@@ -69,13 +69,16 @@ exports.logout = (req, res) => {
 };
 exports.protectedRoute = catchError(async (req, res, next) => {
   let token;
-  console.log('  req.cookies.jwt', req.headers)
-  if (req.cookies.jwt) {
-    token = req.cookies.jwt; //getting token from cookie parsed by cookie parser
-  }
+
+ token = req.body.token || req.query.token || req.headers["authorization"] || req.cookies.jwt
+
+  // console.log('  req.cookies.jwt', req.headers)
+  // if (req.cookies.jwt) {
+  //   token = req.cookies.jwt; //getting token from cookie parsed by cookie parser
+
   if (!token)
     return next(new Error('You are not logged in. Please login', 401));
-
+ token = token.replace(/^Bearer\s+/, "");
   let decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET); //docoding the token like jwt debugger
 
   const currentUser = await User.findById(decoded.id).select('+role'); //getting the current user
