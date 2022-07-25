@@ -59,7 +59,7 @@ exports.webhookCheckout = async (req, res) => {
   }
 
   if (event.type === 'checkout.session.completed') {
-    const session = event.data.object;``
+    const session = event.data.object;
     const { line_items } = await stripe.checkout.sessions.retrieve(session.id, {
       expand: ['line_items'],
     });
