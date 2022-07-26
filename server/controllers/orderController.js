@@ -55,7 +55,7 @@ exports.webhookCheckout = async (req, res) => {
       process.env.STRIPE_WEBHOOK_SECRET
     );
   } catch (err) {
-    return res.status(400).send(`Webhook error: ${err.message}`);
+    return res.status(400).send(`Webhook error: ${err.message}  ${process.env.STRIPE_WEBHOOK_SECRET}`);
   }
 
   // if (event.type === 'checkout.session.completed') {
