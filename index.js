@@ -19,26 +19,11 @@ const mongoSanitizer = require('express-mongo-sanitize');
 const helmet = require('helmet');
 
 const app = express();
-
-app.use(
-  cors({
-    credentials: true,
-    origin: '*',
-  })
+app.post(
+  '/webhook-checkout',
+  express.raw({ type: 'application/json' }),
+  orderController.webhookCheckout
 );
-
-
-app.use((req, res, next) => {
-  if (req.originalUrl === '/webhook-checkout') {
-    next();
-  } else {
-    express.json()(req, res, next);
-  }
-});
-
-// Stripe requires the raw body to construct the event
-app.post('/webhook-checkout', express.raw({type: 'application/json'}),orderController.webhookCheckout);
-
 
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Credentials', true);
@@ -52,6 +37,14 @@ app.use((req, res, next) => {
   );
   next();
 });
+
+app.use(
+  cors({
+    credentials: true,
+    origin: '*',
+  })
+);
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
