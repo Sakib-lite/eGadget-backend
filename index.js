@@ -26,7 +26,14 @@ app.use(
     origin: '*',
   })
 );
-app.use('/webhook-checkout', express.raw({ type: '*/*' }));
+app.use(
+  "/webhook-checkout",
+  express.json({
+    verify: (req, res, buf) => {
+      req.rawBody = buf.toString();
+    },
+  })
+);
 app.use(express.json());
 app.post('/webhook-checkout', orderController.webhookCheckout);
 
