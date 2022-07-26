@@ -4,7 +4,9 @@ const catchError = require('../../utils/catchError');
 require('dotenv').config();
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
-exports.getCheckoutSessions = catchError(async (req, res) => {
+exports.getCheckoutSessions = async (req, res) => {
+
+try{
   const { cartItems, totalPrice } = req.body;
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ['card'],
@@ -35,7 +37,15 @@ exports.getCheckoutSessions = catchError(async (req, res) => {
     session,
     url: session.url,
   });
-});
+}catch(err){
+
+res.status(500).json({
+  err
+})
+
+}
+
+}
 
 const createBookingCheckout = async (session, cart) => {
   const user = (await User.findOne({ email: session.customer_email })).id;
