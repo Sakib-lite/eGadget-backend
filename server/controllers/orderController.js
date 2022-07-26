@@ -68,13 +68,13 @@ exports.webhookCheckout = async (req, res) => {
     return res.status(400).send(`Webhook error: ${err.message}  ${process.env.STRIPE_WEBHOOK_SECRET}`);
   }
 
-  // if (event.type === 'checkout.session.completed') {
-  //   const session = event.data.object;
-  //   const { line_items } = await stripe.checkout.sessions.retrieve(session.id, {
-  //     expand: ['line_items'],
-  //   });
-  //   createBookingCheckout(event.data.object, line_items);
-  // }
+  if (event.type === 'checkout.session.completed') {
+    const session = event.data.object;
+    const { line_items } = await stripe.checkout.sessions.retrieve(session.id, {
+      expand: ['line_items'],
+    });
+    createBookingCheckout(event.data.object, line_items);
+  }
 
   res.status(200).json({ received: true });
 };
