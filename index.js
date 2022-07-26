@@ -13,28 +13,17 @@ const errorHandler = require('./server/controllers/errorController');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const orderController = require('./server/controllers/orderController');
-const xss = require('xss-clean');
-const compression = require('compression');
+const xss = require('xss-clean')
+const compression=require('compression');
 const mongoSanitizer = require('express-mongo-sanitize');
-const helmet = require('helmet');
+const helmet= require('helmet')
 
 const app = express();
-app.post(
-  '/webhook-checkout',
-  express.raw({ type: 'application/json' }),
-  orderController.webhookCheckout
-);
 
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Credentials', true);
-  res.header(
-    'Access-Control-Allow-Methods',
-    'GET,PUT,POST,DELETE,UPDATE,OPTIONS'
-  );
-  res.header(
-    'Access-Control-Allow-Headers',
-    'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept'
-  );
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,UPDATE,OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept');
   next();
 });
 
@@ -43,15 +32,21 @@ app.use(
     credentials: true,
     origin: '*',
   })
-);
+  );
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
+  app.post(
+    '/webhook-checkout',
+    bodyParser.raw({ type: 'application/json' }),
+    orderController.webhookCheckout
+    );
 
-app.use(xss());
-app.use(compression());
-app.use(mongoSanitizer());
+    app.use(express.json());
+    app.use(express.urlencoded({ extended: true }));
+    app.use(cookieParser());
+    
+app.use(xss())
+app.use(compression())
+app.use(mongoSanitizer())
 //middlewares
 //app.get will only be called for GET requests
 //app.use only see whether url starts with specified path;
@@ -71,17 +66,19 @@ app.use('/api/order', orderRoutes);
 
 app.use(errorHandler);
 
-process.on('uncaughtException', (err) => {
+
+process.on('uncaughtException', err => {
   console.log('UNCAUGHT EXCEPTION!');
   console.log(err.name, err.message);
   process.exit(1);
 });
 db.connect();
-const server = app.listen(process.env.PORT || 3001, '0.0.0.0', function () {
-  console.log(`App is running on localhost:${process.env.PORT || 3001}`);
+const server=app.listen(process.env.PORT || 3001, '0.0.0.0', function() {
+  console.log(`App is running on localhost:${process.env.PORT || 3001}`)
 });
 
-process.on('unhandledRejection', (err) => {
+
+process.on('unhandledRejection', err => {
   console.log('UNHANDLED REJECTION!');
   console.log(err.name, err.message);
   server.close(() => {
