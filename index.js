@@ -37,7 +37,7 @@ app.use((req, res, next) => {
 });
 
 // Stripe requires the raw body to construct the event
-app.post('/webhook', express.raw({type: 'application/json'}), (req, res) => {
+app.post('/webhook-checkout', express.raw({type: 'application/json'}), (req, res) => {
   const sig = req.headers['stripe-signature'];
 
   let event;
