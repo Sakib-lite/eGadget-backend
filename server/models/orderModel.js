@@ -13,7 +13,7 @@ const orderSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    cart: { type: Object },
+    cart:{ type : Array , "default" : [] }    ,
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
