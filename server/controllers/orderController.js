@@ -1,8 +1,12 @@
 const User = require('../models/userModel');
 const Order = require('../models/orderModel');
 const catchError = require('../../utils/catchError');
+const productController = require('./handlerController');
 require('dotenv').config();
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+
+exports.getAllReviews=productController.getAllDocuments(Review)
+exports.getReview = productController.getDocumentById(Review);
 
 exports.getCheckoutSessions = catchError(async (req, res) => {
 
