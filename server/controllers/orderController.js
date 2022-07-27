@@ -13,7 +13,7 @@ try{
     line_items: cartItems.map((item) => {
       return {
         price_data: {
-          currency: 'usd',
+       
           product_data: {
             name: item.name,
           },
