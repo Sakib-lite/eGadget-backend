@@ -5,8 +5,8 @@ const productController = require('./handlerController');
 require('dotenv').config();
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
-exports.getAllReviews=productController.getAllDocuments(Review)
-exports.getReview = productController.getDocumentById(Review);
+exports.getAllOrders=productController.getAllDocuments(Order)
+exports.getOrder= productController.getDocumentById(Order);
 
 exports.getCheckoutSessions = catchError(async (req, res) => {
 
