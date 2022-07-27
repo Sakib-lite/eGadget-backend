@@ -20,6 +20,7 @@ try{
           unit_amount: totalPrice,
         },
         quantity: item.quantity,
+        currency:'BDT'
       };
     }),
 
