@@ -4,48 +4,40 @@ const catchError = require('../../utils/catchError');
 require('dotenv').config();
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
-exports.getCheckoutSessions = async (req, res) => {
+exports.getCheckoutSessions = catchError(async (req, res) => {
 
-try{
-  const { cartItems, totalPrice } = req.body;
-  const session = await stripe.checkout.sessions.create({
-    payment_method_types: ['card'],
-    line_items: cartItems.map((item) => {
-      return {
-        price_data: {
-          currency: 'BDT',
-          product_data: {
-            name: item.name,
+    const { cartItems, totalPrice } = req.body;
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ['card'],
+      line_items: cartItems.map((item) => {
+        return {
+          price_data: {
+            currency: 'BDT',
+            product_data: {
+              name: item.name,
+            },
+            unit_amount: totalPrice,
           },
-          unit_amount: totalPrice,
-        },
-        quantity: item.quantity,
-      };
-    }),
+          quantity: item.quantity,
+        };
+      }),
 
-    mode: 'payment',
-    success_url: 'https://e-gadget.vercel.app/',
+      mode: 'payment',
+      success_url: 'https://e-gadget.vercel.app/',
 
-    cancel_url: 'https://e-gadget.vercel.app/cart',
+      cancel_url: 'https://e-gadget.vercel.app/cart',
 
-    customer_email: req.user.email,
-  });
-  req.sessionId = session.id;
-  res.status(200).json({
-    status: 'success',
-    message: 'Orders Completed',
-    session,
-    url: session.url,
-  });
-}catch(err){
-
-res.status(500).json({
-  err
+      customer_email: req.user.email,
+    });
+    req.sessionId = session.id;
+    
+    res.status(200).json({
+      status: 'success',
+      message: 'Orders Completed',
+      session,
+      url: session.url,
+    });
 })
-
-}
-
-}
 
 const createBookingCheckout = async (session, cart) => {
   const user = (await User.findOne({ email: session.customer_email })).id;
@@ -65,7 +57,11 @@ exports.webhookCheckout = async (req, res) => {
       process.env.STRIPE_WEBHOOK_SECRET
     );
   } catch (err) {
-    return res.status(400).send(`Webhook error: ${err.message}  ${process.env.STRIPE_WEBHOOK_SECRET}`);
+    return res
+      .status(400)
+      .send(
+        `Webhook error: ${err.message}  ${process.env.STRIPE_WEBHOOK_SECRET}`
+      );
   }
 
   if (event.type === 'checkout.session.completed') {
@@ -73,7 +69,8 @@ exports.webhookCheckout = async (req, res) => {
     const { line_items } = await stripe.checkout.sessions.retrieve(session.id, {
       expand: ['line_items'],
     });
-    createBookingCheckout(event.data.object, line_items);
+    const { data } = line_items;
+    createBookingCheckout(event.data.object, data);
   }
 
   res.status(200).json({ received: true });
