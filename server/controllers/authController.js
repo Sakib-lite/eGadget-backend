@@ -32,6 +32,9 @@ const createTokenAndSendIt = (user, statusCode, res, message = 'Completed') => {
   });
 };
 
+
+
+
 exports.signup = catchError(async (req, res, next) => {
   const user = await User.create({
     name: req.body.name,
@@ -44,6 +47,10 @@ exports.signup = catchError(async (req, res, next) => {
 
   createTokenAndSendIt(user, 201, res, 'User created successfully');
 });
+
+
+
+
 
 exports.login = catchError(async (req, res, next) => {
   const { email, password } = req.body;
@@ -60,6 +67,8 @@ exports.login = catchError(async (req, res, next) => {
   createTokenAndSendIt(user, 200, res, 'You are now logged in');
 });
 
+
+
 exports.logout = (req, res) => {
   res.cookie('jwt', 'loggedout', {
     expires: new Date(Date.now() + 10 * 1000),
@@ -67,15 +76,20 @@ exports.logout = (req, res) => {
   });
   res.status(200).json({ status: 'success', message: 'You are logged out' });
 };
+
+
+
+
 exports.protectedRoute = catchError(async (req, res, next) => {
   let token;
 
- token = req.body.token || req.query.token || req.headers["authorization"] || req.cookies.jwt
+ token = req.body.token || req.query.token || req.headers["authorization"]
 //  console.log('  token', token)
 
   // console.log('  req.cookies.jwt', req.headers)
-  // if (req.cookies.jwt) {
-  //   token = req.cookies.jwt; //getting token from cookie parsed by cookie parser
+  if (req.cookies.jwt) {
+    token = req.cookies.jwt; //getting token from cookie parsed by cookie parser
+  }
 
   if (!token)
     return next(new Error('You are not logged in. Please login', 401));
