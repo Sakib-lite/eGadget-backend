@@ -30,7 +30,7 @@ app.use((req, res, next) => {
 app.use(
   cors({
     credentials: true,
-    origin: ['https://e-gadget.vercel.app','localhost:3001'],
+    origin: ['https://e-gadget.vercel.app','http://localhost:3001'],
   })
   );
 
