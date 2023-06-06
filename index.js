@@ -33,6 +33,12 @@ app.use(
     origin:'https://e-gadget.vercel.app'
   })
   );
+app.use(
+  cors({
+    credentials: true,
+    origin:'localhost:5001'
+  })
+  );
 
   app.post(
     '/webhook-checkout',
