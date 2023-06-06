@@ -30,15 +30,16 @@ app.use((req, res, next) => {
 app.use(
   cors({
     credentials: true,
-    origin:'https://e-gadget.vercel.app'
+    origin:'localhost:5001'
   })
   );
 app.use(
   cors({
     credentials: true,
-    origin:'localhost:5001'
+    origin:'https://e-gadget.vercel.app'
   })
   );
+
 
   app.post(
     '/webhook-checkout',
