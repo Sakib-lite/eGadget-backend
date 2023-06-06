@@ -30,7 +30,7 @@ app.use((req, res, next) => {
 app.use(
   cors({
     credentials: true,
-    origin:'localhost:5001'
+    origin:'http://localhost:5001'
   })
   );
 app.use(
